@@ -1,9 +1,9 @@
 import React from 'react';
-import { Div, Input, Icon } from 'react-native-magnus';
+import { Div, Input, Icon,Text } from 'react-native-magnus';
 import { colors } from '../config/colors';
 
 
-const Custom_input = ({value,placeholder,onChangeText,icon}) => {
+const Custom_input = ({value,placeholder,onChangeText,icon,error , ...props}) => {
     return (
         <Div mb={20}>
             <Input
@@ -14,7 +14,10 @@ const Custom_input = ({value,placeholder,onChangeText,icon}) => {
                 focusBorderColor={colors.primary}
                 suffix={icon}
                 h={55}
+                {...props}
             />
+            
+            {error ? <Text color="red">{error}</Text> : null}
         </Div>
     )
 }

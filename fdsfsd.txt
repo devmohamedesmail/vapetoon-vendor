@@ -1,0 +1,53 @@
+  {/* Images Section */}
+        {/* <Div mb={20}>
+          <Text mb={10} fontWeight="bold">Product Images ({images.length})</Text>
+          <Div flexDir="row" flexWrap="wrap">
+            {images.map((img, index) => (
+              <Div key={index} m={5} position="relative">
+                <Button
+                  position="absolute"
+                  right={5}
+                  top={5}
+                  zIndex={1}
+                  bg="red500"
+                  h={24}
+                  w={24}
+                  rounded="circle"
+                  onPress={() => handleRemoveImage(index)}
+                >
+                  <Icon name="close" color="white" fontSize="sm" />
+                </Button>
+                <Custom_image_picker
+                  image={img}
+                  setImage={(newImage) => {
+                    const newImages = [...images];
+                    newImages[index] = newImage;
+                    setImages(newImages);
+                  }}
+                />
+              </Div>
+            ))}
+            {images.length < 5 && (
+              <Div m={5}>
+                <Custom_image_picker
+                  onImageSelected={handleAddImage}
+                />
+              </Div>
+            )}
+          </Div>
+          {images.length === 0 && (
+            <Text color="red" mt={5}>Please add at least one image</Text>
+          )}
+        </Div> */}
+
+
+
+
+
+          const handleAddImage = (newImage) => {
+    setImages((prev) => [...prev, newImage]);
+  };
+
+  const handleRemoveImage = (index) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  };
