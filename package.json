@@ -18,11 +18,14 @@
     "expo-image-picker": "~16.1.4",
     "expo-status-bar": "~2.2.3",
     "formik": "^2.4.6",
+    "i18next": "^25.2.1",
     "react": "19.0.0",
+    "react-i18next": "^15.5.2",
     "react-native": "0.79.2",
     "react-native-magnus": "^1.0.63",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
+    "toastify-react-native": "^7.2.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
