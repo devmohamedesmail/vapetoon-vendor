@@ -1,6 +1,6 @@
 import { View, Alert, Text, ScrollView, Platform, KeyboardAvoidingView } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { Div, Button, Icon, Dropdown } from 'react-native-magnus'
+import { Div, Button, Icon, Dropdown, ScrollDiv } from 'react-native-magnus'
 import Custom_input from '../../custom/Custom_input'
 import { useFormik } from 'formik'
 import Custom_button from '../../custom/Custom_button'
@@ -12,31 +12,45 @@ import Custom_header from '../../custom/Custom_header'
 import { uploadImagesToStrapi } from '../../utils/upload_images'
 import Custom_images_picker from '../../custom/Custom_images_picker'
 import { DataContext } from '../../context/DataProvide'
+import { useTranslation } from 'react-i18next'
+import { colors } from '../../config/colors'
+import { Toast } from 'toastify-react-native'
+import { AuthContext } from '../../context/AuthProvider'
+import { useRoute } from '@react-navigation/native'
 
 
 
 
 
-const validationSchema = Yup.object().shape({
-  title: Yup.string().required('Title is required'),
-  description: Yup.string().required('Description is required'),
-  price: Yup.number().required('Price is required').positive('Price must be positive'),
-  stock: Yup.number().required('Stock is required').integer('Stock must be an integer').min(0, 'Stock cannot be negative'),
-  sale: Yup.number().required('Sale price is required').positive('Sale price must be positive'),
-});
 
 
 
 
-const handleHead = ({ tintColor }) => <Text style={{ color: tintColor }}>H1</Text>
+
+
 const AddProduct = () => {
+  const route = useRoute()
+  const { vendorId } = route.params;
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const { categories } = useContext(DataContext)
   const dropdownRef = React.createRef();
+  const { t } = useTranslation()
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const { auth } = useContext(AuthContext)
 
 
 
+
+
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required(t('title-required')),
+    description: Yup.string().required(t('description-required')),
+    price: Yup.number().required(t('price-required')).positive(t('price-positive')),
+    stock: Yup.number().required(t('stock-required')).integer(t('stock-integer')).min(0, t('stock-min')),
+    images: Yup.array().min(1, t('image-required')),
+    category: Yup.number().required(t('category-required')),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -46,6 +60,8 @@ const AddProduct = () => {
       price: '',
       stock: '',
       sale: '',
+
+
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -58,24 +74,35 @@ const AddProduct = () => {
           data: {
             ...values,
             category: Number(values.category),
+            price: Number(values.price),
+            stock: Number(values.stock),
+            sale: values.sale ? Number(values.sale) : null,
+            vendor: vendorId,
+            vendor_id : vendorId,
             images: imageIds,
           },
         };
 
         console.log("Payload:", payload);
 
-        await axios.post(`https://ecommerce-strapi-ex18.onrender.com/api/products`, payload, {
+        await axios.post(`${api.baseURL}/products`, payload, {
           headers: {
             Authorization: `Bearer ${api.token} `,
           },
         });
 
-        Alert.alert('Success', 'Product added successfully!');
+        Toast.show({
+          type: 'success',
+          text1: t('product-added-successfully'),
+        })
         formik.resetForm();
         setImages([]);
       } catch (error) {
-        console.error(error);
-        Alert.alert('Error', 'Failed to add product');
+        console.log(error.response?.data || error);
+        Toast.show({
+          type: 'error',
+          text1: t('product-add-error'),
+        })
       } finally {
         setLoading(false);
       }
@@ -86,38 +113,54 @@ const AddProduct = () => {
   return (
 
 
-    <ScrollView >
+    <Div flex={1} bg={colors.screenBackground}>
       <Custom_header title={"Add Product"} />
 
-      <Button
-        block
-        bg="pink500"
-        mt="sm"
-        p="md"
-        color="white"
-        onPress={() => dropdownRef.current.open()}>
-        Open Dropdown
-      </Button>
-
-      <Dropdown
-        ref={dropdownRef}
-        
-        mt="md"
-        pb="2xl"
-        showSwipeIndicator={true}
-        roundedTop="xl">
 
 
-        {categories && categories.map((category) => (
-          <Dropdown.Option key={category.id} py="md" px="xl" block onPress={() => formik.setFieldValue('category', category.id)}>
-            {category.title}
-          </Dropdown.Option>
-        ))}
+      <ScrollDiv px={10} py={20} pb={200} flex={1} >
 
 
-      </Dropdown>
+        <Button
+          block
+          bg={colors.primary}
+          mt="sm"
+          p="md"
+          color="white"
+          mb={10}
+          h={50}
 
-      <Div px={10} py={20}>
+          onPress={() => dropdownRef.current.open()}>
+
+          {selectedCategory || t('select-category')}
+        </Button>
+
+        <Dropdown
+          ref={dropdownRef}
+
+          mt="md"
+          pb="2xl"
+          showSwipeIndicator={true}
+          roundedTop="xl">
+
+
+          {categories && categories.map((category) => (
+            <Dropdown.Option
+              key={category.id}
+              py="md" px="xl" block
+              onPress={() => {
+                formik.setFieldValue('category', category.id);
+                setSelectedCategory(category.title);
+              }}>
+              {category.title}
+            </Dropdown.Option>
+          ))}
+
+
+        </Dropdown>
+
+
+
         <Custom_input
           placeholder={'Product Title'}
           value={formik.values.title}
@@ -166,19 +209,28 @@ const AddProduct = () => {
         <Custom_images_picker
           images={images}
           setImages={setImages}
-          // onImagesSelected={(imgs) => console.log('Selected:', imgs)}
+        // onImagesSelected={(imgs) => console.log('Selected:', imgs)}
         />
+
+        {formik.errors.images && (
+          <Div>
+            <Text style={{ color: 'red' }}>{formik.errors.images}</Text>
+          </Div>
+        )}
+
 
 
 
 
         <Custom_button
-          title={loading ? 'Adding Product...' : 'Add Product'}
+          title={loading ? t('adding-product') : t('add-product')}
           onPress={formik.handleSubmit}
           disabled={loading}
+          mt={30}
+          mb={100}
         />
-      </Div>
-    </ScrollView>
+      </ScrollDiv>
+    </Div>
 
   )
 }

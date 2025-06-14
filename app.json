@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "vendor-app",
-    "slug": "vendor-app",
+    "name": "Vendora Vendor",
+    "slug": "vendora-vendor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

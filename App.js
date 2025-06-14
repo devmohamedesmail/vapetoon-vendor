@@ -15,12 +15,12 @@ export default function App() {
         <DataProvider>
           <I18nextProvider i18n={i18n}>
             <AppNavigator />
-              
+
           </I18nextProvider>
-             
+
         </DataProvider>
       </AuthProvider>
-       <Toast />
+      <Toast />
     </NavigationContainer>
   );
 }

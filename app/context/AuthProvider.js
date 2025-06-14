@@ -3,13 +3,15 @@ import React, { createContext, useState, useEffect } from 'react'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../config/api';
+import { useNavigation } from '@react-navigation/native';
 
 export const AuthContext = createContext();
 
 
 const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(null)
-
+    const [loading, setLoading] = useState(true)
+    const navigation = useNavigation();
 
 
 
@@ -81,6 +83,7 @@ const AuthProvider = ({ children }) => {
         try {
             await AsyncStorage.removeItem('user');
             setAuth(null);
+            navigation.navigate('Login');
         } catch (error) {
             console.log('Error logging out', error.message);
         }

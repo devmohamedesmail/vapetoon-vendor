@@ -9,10 +9,11 @@ import Custom_button from '../../custom/Custom_button';
 import Custom_input from '../../custom/Custom_input';
 import Custom_image_picker from '../../custom/Custom_image_picker';
 import { api } from '../../config/api';
-import { Alert } from 'react-native';
 import { uploadImagesToStrapi } from '../../utils/upload_images';
 import { AuthContext } from '../../context/AuthProvider';
 import axios from 'axios';
+import { Toast } from 'toastify-react-native'
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 const CreateVendor = () => {
@@ -21,7 +22,9 @@ const CreateVendor = () => {
   const [banner, setBanner] = useState(null);
   const [loading, setLoading] = useState(false);
   const { auth } = useContext(AuthContext)
-
+  const navigation = useNavigation();
+  const route = useRoute();
+  const fetchVendor = route.params?.fetchVendor;
 
   const formik = useFormik({
     initialValues: {
@@ -59,7 +62,7 @@ const CreateVendor = () => {
         };
 
         const response = await axios.post(
-          'https://ecommerce-strapi-ex18.onrender.com/api/vendors',
+          `${api.baseURL}/vendors`,
           payload,
           {
             headers: {
@@ -69,13 +72,27 @@ const CreateVendor = () => {
         );
 
 
-        Alert.alert(t('success'), t('vendor-created-successfully'));
-        formik.resetForm();
-        setLogo(null);
-        setBanner(null);
+
+
+
+        Toast.show({
+          type: 'success',
+          text1: `${t('vendor-created-successfully')}`,
+          duration: 3000,
+        })
+        // formik.resetForm();
+        // setLogo(null);
+        // setBanner(null);
+        fetchVendor();
+        navigation.goBack();
       } catch (error) {
         console.log(error);
-        Alert.alert(t('error'), t('failed-to-create-vendor'));
+
+        Toast.show({
+          type: 'error',
+          text1: `${t('failed-to-create-vendor')}`,
+          duration: 3000,
+        })
       } finally {
         setLoading(false);
       }
@@ -84,20 +101,20 @@ const CreateVendor = () => {
 
 
   return (
-    <Div>
+    <Div bg="white" flex={1}>
       <Custom_header title={t('create-vendor')} />
 
       <ScrollDiv>
         <Div px={10} py={20} pb={250}>
           <Custom_input
-            placeholder={t('vendor-name')}
+            placeholder={t('store-name')}
             value={formik.values.vendor_name}
             onChangeText={formik.handleChange('vendor_name')}
             error={formik.errors.vendor_name}
           />
-        
-       
-         
+
+
+
           <Custom_input
             placeholder={t('phone')}
             value={formik.values.phone}

@@ -11,13 +11,13 @@ const Custom_input = ({value,placeholder,onChangeText,icon,error , ...props}) =>
                 p={10}
                 value={value}
                 onChangeText={onChangeText}
-                focusBorderColor={colors.primary}
+                focusBorderColor={colors.secondary}
                 suffix={icon}
-                h={55}
+                h={50}
                 {...props}
             />
             
-            {error ? <Text color="red">{error}</Text> : null}
+            {error ? <Text color="red" fontSize={12}>{error}</Text> : null}
         </Div>
     )
 }

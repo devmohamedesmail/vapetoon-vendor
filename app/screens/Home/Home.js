@@ -1,4 +1,5 @@
-
+import React from 'react'
+import { RefreshControl } from 'react-native'
 import { Div, ScrollDiv, Text, Header, Button, Icon, Skeleton, Image } from 'react-native-magnus'
 import Custom_home_item from '../../custom/Custom_home_item'
 import { colors } from '../../config/colors'
@@ -9,85 +10,82 @@ import { useState, useEffect } from 'react'
 import { api } from '../../config/api'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
+import Custom_header from '../../custom/Custom_header'
+import Skeleton_loading_item from '../../items/Skeleton_loading_item'
+import Custom_button from '../../custom/Custom_button'
 export default function Home() {
     const { auth } = useContext(AuthContext);
     const navigation = useNavigation();
-
     const [vendor, setVendor] = useState(null);
     const [loading, setLoading] = useState(true);
     const { t } = useTranslation();
-   
-    console.log(auth?.user?.id)
-    useEffect(() => {
-        const fetchVendor = async () => {
-            try {
-                setLoading(true);
-                const res = await axios.get(
-                    `https://ecommerce-strapi-ex18.onrender.com/api/vendors?filters[user][id][$eq]=${auth.user.id}&populate[logo]=true&populate[banner]=true&populate[user]=true`, {
-                    headers: {
-                        Authorization: `Bearer ${api.token}`,
-                    }
-                }
-                );
-                if (res.data && res.data.data && res.data.data.length > 0) {
-                    setVendor(res.data.data[0]);
-                } else {
-                    setVendor(null);
-                }
+    const [refreshing, setRefreshing] = React.useState(false);
 
-            } catch (err) {
-                console.log(err);
-                setVendor(null);
-            } finally {
-                setLoading(false);
+    const fetchVendor = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(
+                `${api.baseURL}/vendors?filters[user][id][$eq]=${auth.user.id}&populate[logo]=true&populate[banner]=true&populate[user]=true`, {
+                headers: {
+                    Authorization: `Bearer ${api.token}`,
+                }
             }
-        };
+            );
+            if (res.data && res.data.data && res.data.data.length > 0) {
+                setVendor(res.data.data[0]);
+            } else {
+                setVendor(null);
+            }
+
+        } catch (err) {
+            console.log(err);
+            setVendor(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
+
         fetchVendor();
-    }, [])
+    }, [auth])
+
+
+
+    const onRefresh = React.useCallback(async () => {
+        setRefreshing(true);
+        await fetchVendor();
+        setRefreshing(false);
+    }, []);
 
     return (
-        <Div>
-            <ScrollDiv>
+        <Div bg="white" flex={1} >
+            <ScrollDiv
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                } >
 
-                <Header
-                    p="lg"
-                    bg={colors.secondary}
-                    alignment="left"
-                    color="white"
-                    pt={40}
-                    prefix={
-                        <Button bg="transparent">
-                            <Icon name="arrow-left" fontFamily="Feather" color='white' fontSize="2xl" />
-                        </Button>
-                    }
-                    suffix={
-                        <Button bg="transparent">
-                            <Icon name="more-vertical" fontFamily="Feather" color='white' />
-                        </Button>
-                    }
-                >
-                    {t('home')}
-                </Header>
+
+
+                <Custom_header />
 
 
 
 
                 {loading ? (
-                    <Div px={10} py={20}>
-                        <Skeleton.Box h={30} w={200} mb={10} />
-                        <Skeleton.Box h={20} w={150} mb={10} />
-                        <Skeleton.Box h={100} w={'100%'} />
-                    </Div>
+                    <Skeleton_loading_item />
                 ) : vendor ? (
-                    <>
+                    <Div h="100%" position='relative'>
 
-                        <Div px={10} py={20} flexDir='row' alignItems='center' bg="white">
-                            <Image w={100} h={100} rounded="circle" source={{ uri: `${vendor?.logo?.formats?.thumbnail?.url}` }} />
+                        <Div px={10} py={20} flexDir='row' alignItems='center' >
+                            <Image w={70} h={70} rounded="circle" source={{ uri: `${vendor?.logo?.formats?.thumbnail?.url}` }} />
                             <Div mx={10}>
                                 <Text fontWeight="bold" fontSize={20}>{vendor.vendor_name}</Text>
 
                                 <Text color="gray700" mb={10}>
-                                    t{'owner'}: {vendor.user?.username}
+                                    {t('owner')}: {vendor.user?.username}
+                                </Text>
+                                <Text color="gray700" mb={10}>
+                                    {t('vendor-no')}: {vendor.id}
                                 </Text>
                             </Div>
                         </Div>
@@ -96,30 +94,46 @@ export default function Home() {
 
                         <Div flexDir='row' flexWrap='wrap' justifyContent='space-between' mt={10} alignItems='center' px={10}>
                             <Custom_home_item
+                                icon={require('../../../assets/images/add-product.png')}
+                                title={t('add-product')}
+                                onPress={() => navigation.navigate('AddProduct', { vendorId: vendor.id })}
+                            />
+
+                            <Custom_home_item
                                 icon={require('../../../assets/images/products.png')}
-                                title={'products'}
-                                onPress={() => navigation.navigate('AddProduct')}
+                                title={t('my-products')}
+                                onPress={() => navigation.navigate('Show', { vendorId: vendor.id })}
                             />
                             <Custom_home_item
                                 icon={require('../../../assets/images/orders.png')}
                                 title={'Orders'}
+                                onPress={() => navigation.navigate('Orders', { vendorId: vendor.id })}
                             />
                             <Custom_home_item
                                 icon={require('../../../assets/images/store.png')}
                                 title={'Store'}
+                                onPress={() => navigation.navigate('UpdateVendor', { vendor: vendor })}
                             />
                         </Div>
-                    </>
+
+
+                    </Div>
                 ) : (
                     <Div px={10} py={20} alignItems="center" justifyContent='center' >
+
+
+                        <Image w={200} h={200} source={require('../../../assets/images/shop.jpg')} />
                         <Text fontWeight="bold" fontSize={20} mb={20}>{t('no_vendor-found')}</Text>
                         <Button
-                            bg={colors.primary}
+                            bg={colors.secondary}
                             color="white"
                             px={30}
-                            py={15}   
+                            fontWeight='bold'
+                            rounded={30}
+                            py={15}
                             alignSelf='center'
-                            onPress={() => navigation.navigate('CreateVendor')}
+                            // onPress={() => navigation.navigate('CreateVendor')}
+                            onPress={() => navigation.navigate('CreateVendor', { fetchVendor })}
                         >
                             {t('create-vendor')}
                         </Button>

@@ -1,14 +1,16 @@
 import Custom_input from "../../custom/Custom_input"
-import { Div } from "react-native-magnus"
+import { Div ,Text,Button, Image} from "react-native-magnus"
 import Custom_button from "../../custom/Custom_button"
 import { useFormik } from "formik"
 import * as Yup from 'yup'
 import { useTranslation } from "react-i18next"
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Fontisto from '@expo/vector-icons/Fontisto';
-import { useContext,useState } from "react"
+import { useContext, useState } from "react"
 import { AuthContext } from "../../context/AuthProvider"
 import { useNavigation } from "@react-navigation/native"
+import { colors } from "../../config/colors"
+
 const Register = () => {
     const { t } = useTranslation();
     const { handle_register } = useContext(AuthContext);
@@ -39,7 +41,7 @@ const Register = () => {
             } catch (error) {
                 setLoading(false);
                 console.log('Registration error:', error);
-            }finally {
+            } finally {
                 setLoading(false);
             }
         },
@@ -49,6 +51,8 @@ const Register = () => {
 
     return (
         <Div pt={100} px={20} flex={1} bg="white">
+
+            <Image w="90%" h={200} alignSelf="center" mb={50}  source={require('../../../assets/images/register.jpg')} />
 
             <Custom_input
                 placeholder={t('username')}
@@ -76,11 +80,20 @@ const Register = () => {
 
             />
 
-            <Custom_button 
-            title={loading ? t('registering') : t('register')} 
-            w="100%" 
-            disabled={!formik.isValid || loading}
-             onPress={formik.handleSubmit} />
+            <Custom_button
+                title={loading ? t('registering') : t('register')}
+                w="100%"
+                disabled={!formik.isValid || loading}
+                onPress={formik.handleSubmit} />
+
+
+
+            <Div mt={20} flexDir="row" justifyContent="center" alignItems="center">
+                <Text textAlign="center"  color={colors.primary} >
+                    {t('dont-have-an-account')}
+                </Text>
+                <Button bg={colors.secondary} px={10} py={5}  mx={5} onPress={() => navigation.navigate('Login')}>{t('login')}</Button>
+            </Div>
 
 
         </Div>

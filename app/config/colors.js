@@ -6,6 +6,7 @@ export const colors = {
       "warning": "#FFC107",
       "info": "#2196F3",
       "light": "#F5F5F5",
-      "dark": "#212121"
+      "dark": "#212121",
+      "screenBackground": "#ffffff",
 }
 

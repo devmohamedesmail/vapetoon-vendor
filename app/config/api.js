@@ -8,11 +8,4 @@ export const api = {
     token,
 };
 
-// Create axios instance with default config
-export const strapiAPI = axios.create({
-    baseURL,
-    headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-    }
-});
+
