@@ -1,6 +1,6 @@
 import { View, Alert, Text, ScrollView, Platform, KeyboardAvoidingView } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { Div, Button, Icon, Dropdown, ScrollDiv } from 'react-native-magnus'
+import { Div, Button, Icon, Dropdown, ScrollDiv, Image } from 'react-native-magnus'
 import Custom_input from '../../custom/Custom_input'
 import { useFormik } from 'formik'
 import Custom_button from '../../custom/Custom_button'
@@ -17,6 +17,7 @@ import { colors } from '../../config/colors'
 import { Toast } from 'toastify-react-native'
 import { AuthContext } from '../../context/AuthProvider'
 import { useRoute } from '@react-navigation/native'
+import Custom_Select from '../../custom/custom_select'
 
 
 
@@ -78,7 +79,7 @@ const AddProduct = () => {
             stock: Number(values.stock),
             sale: values.sale ? Number(values.sale) : null,
             vendor: vendorId,
-            vendor_id : vendorId,
+            vendor_id: vendorId,
             images: imageIds,
           },
         };
@@ -120,46 +121,16 @@ const AddProduct = () => {
 
       <ScrollDiv px={10} py={20} pb={200} flex={1} >
 
-
-        <Button
-          block
-          bg={colors.primary}
-          mt="sm"
-          p="md"
-          color="white"
-          mb={10}
-          h={50}
-
-          onPress={() => dropdownRef.current.open()}>
-
-          {selectedCategory || t('select-category')}
-        </Button>
-
-        <Dropdown
-          ref={dropdownRef}
-
-          mt="md"
-          pb="2xl"
-          showSwipeIndicator={true}
-          roundedTop="xl">
-
-
-          {categories && categories.map((category) => (
-            <Dropdown.Option
-              key={category.id}
-              py="md" px="xl" block
-              onPress={() => {
-                formik.setFieldValue('category', category.id);
-                setSelectedCategory(category.title);
-              }}>
-              {category.title}
-            </Dropdown.Option>
-          ))}
-
-
-        </Dropdown>
-
-
+        <Custom_Select
+          options={categories}
+          selectedValue={formik.values.category}
+          onSelect={(value, option) => {
+            formik.setFieldValue('category', value);
+          }}
+          placeholder={t('select-category')}
+          icon="grid"
+          error={formik.touched.category && formik.errors.category}
+        />
 
         <Custom_input
           placeholder={'Product Title'}

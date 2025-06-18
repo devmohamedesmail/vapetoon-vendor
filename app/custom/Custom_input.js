@@ -1,25 +1,63 @@
-import React from 'react';
-import { Div, Input, Icon,Text } from 'react-native-magnus';
+import React, { useState } from 'react';
+import { Div, Input, Text } from 'react-native-magnus';
 import { colors } from '../config/colors';
+import { Feather } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
 
+const Custom_input = ({
+  value,
+  placeholder,
+  onChangeText,
+  icon,
+  error,
+  secureTextEntry,
+  ...props
+}) => {
+  const [showPassword, setShowPassword] = useState(false);
 
-const Custom_input = ({value,placeholder,onChangeText,icon,error , ...props}) => {
-    return (
-        <Div mb={20}>
-            <Input
-                placeholder={placeholder}
-                p={10}
-                value={value}
-                onChangeText={onChangeText}
-                focusBorderColor={colors.secondary}
-                suffix={icon}
-                h={50}
-                {...props}
-            />
-            
-            {error ? <Text color="red" fontSize={12}>{error}</Text> : null}
-        </Div>
-    )
-}
+  const renderSuffix = () => {
+    if (secureTextEntry) {
+      return (
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Feather
+            name={showPassword ? 'eye' : 'eye-off'}
+            size={20}
+            color="#9CA3AF"
+          />
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  };
 
-export default Custom_input
+  return (
+    <Div mb={16} w="100%">
+      <Input
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        fontSize={16}
+        color={colors.primary}
+        h={54}
+        bg="white"
+        borderWidth={1}
+        borderColor={error ? "#EF4444" : "#E5E7EB"}
+        focusBorderColor={error ? "#EF4444" : colors.secondary}
+        rounded="xl"
+        px={16}
+        prefix={icon ? <Div mr={10}>{icon}</Div> : null}
+        suffix={renderSuffix()}
+        secureTextEntry={secureTextEntry && !showPassword}
+        placeholderTextColor="#9CA3AF"
+        {...props}
+      />
+      {error ? (
+        <Text color="#EF4444" fontSize={12} mt={4} ml={4}>
+          {error}
+        </Text>
+      ) : null}
+    </Div>
+  );
+};
+
+export default Custom_input;

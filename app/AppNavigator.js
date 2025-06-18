@@ -9,6 +9,7 @@ import CreateVendor from './screens/CreateVendor/CreateVendor';
 import Orders from './screens/orders/Orders';
 import OrderDetails from './screens/orders/OrderDetails';
 import UpdateVendor from './screens/CreateVendor/UpdateVendor';
+import Details from './screens/products/Details';
 
 const AppNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -28,6 +29,7 @@ const AppNavigator = () => {
         <Stack.Screen name="UpdateVendor" component={UpdateVendor} />
         <Stack.Screen name="Orders" component={Orders} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} />
+        <Stack.Screen name="Details" component={Details} />
 
 
 

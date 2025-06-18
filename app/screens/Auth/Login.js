@@ -10,7 +10,7 @@ import { AuthContext } from "../../context/AuthProvider"
 import Custom_input from "../../custom/Custom_input"
 import Custom_button from "../../custom/Custom_button"
 import { Toast } from "toastify-react-native"
-
+import { Platform } from "react-native"
 
 const Login = () => {
   const { auth, handle_login, handle_register, handle_logout } = useContext(AuthContext)
@@ -67,22 +67,101 @@ const Login = () => {
     }
   })
 
+  // Dummy handlers for social login
+  const handleGoogleLogin = () => {
+    Toast.show({ type: 'info', text1: 'Google login pressed' })
+  }
+  const handleAppleLogin = () => {
+    Toast.show({ type: 'info', text1: 'Apple login pressed' })
+  }
 
 
   return (
-    <Div flex={1} flexDir="column" alignItems="center" px={10} bg="white">
-
-      <Div w="100%" pt={100}>
-        <Image w="100%" h={200} mb={50} source={require('../../../assets/images/login.jpg')} />
-        <Custom_input value={formik.values.identifier} placeholder="Email" onChangeText={formik.handleChange('identifier')} error={formik.errors.identifier} />
-        <Custom_input value={formik.values.password} placeholder="Password" onChangeText={formik.handleChange('password')} secureTextEntry error={formik.errors.password} />
-        <Custom_button title={t('login')} onPress={formik.handleSubmit} disabled={loading} />
-        <Div mt={20} flexDir="row" justifyContent="center" alignItems="center">
-
-          <Text textAlign="center" color={colors.primary} >
-            {t('dont-have-an-account')}
-          </Text>
-          <Button bg={colors.secondary} px={10} py={5} mx={5} onPress={() => navigation.navigate('Register')}>{t('register')}</Button>
+    <Div flex={1} bg="white" justifyContent="center" alignItems="center" px={0}>
+      <Div w="100%" maxW={400} bg="white" rounded="3xl" p={28} alignItems="center" mx={0}>
+        <Image
+          source={require('../../../assets/images/login.jpg')}
+          w={100}
+          h={100}
+          mb={20}
+          rounded="circle"
+          style={{ borderWidth: 3, borderColor: "#E0EAFC" }}
+        />
+        <Text fontWeight="bold" fontSize={30} color={colors.primary} mb={6} letterSpacing={1.2}>
+          {t("login")}
+        </Text>
+        <Text color="gray600" fontSize={15} mb={18} textAlign="center">
+          {t("login_to_continue")}
+        </Text>
+        <Custom_input
+          value={formik.values.identifier}
+          placeholder={t("email")}
+          onChangeText={formik.handleChange("identifier")}
+          error={formik.touched.identifier && formik.errors.identifier}
+          mb={10}
+          w="100%"
+          icon={<Icon name="mail" fontFamily="Feather" fontSize={20} color={colors.secondary} />}
+        />
+        <Custom_input
+          value={formik.values.password}
+          placeholder={t("password")}
+          onChangeText={formik.handleChange("password")}
+          secureTextEntry
+          error={formik.touched.password && formik.errors.password}
+          mb={16}
+          w="100%"
+          icon={<Icon name="lock" fontFamily="Feather" fontSize={20} color={colors.secondary} />}
+        />
+        <Custom_button
+          title={loading ? t("loading") : t("login")}
+          onPress={formik.handleSubmit}
+          disabled={loading}
+          block
+          bg={colors.primary}
+          mb={18}
+          w="100%"
+          rounded="xl"
+          fontSize={18}
+          style={{ elevation: 0 }}
+        />
+        <Text color="gray700" mb={12} fontSize={15}>{t("or_login_with")}</Text>
+        <Div flexDir="row" mb={16}>
+          <Button
+            bg="#F3F4F6"
+            borderWidth={0}
+            rounded="circle"
+            mr={14}
+            onPress={() => Toast.show({ type: "info", text1: "Google login" })}
+            px={20}
+            py={13}
+          >
+            <Image source={require('../../../assets/images/google.png')} w={24} h={24} />
+          </Button>
+          {Platform.OS === "ios" && (
+            <Button
+              bg="#F3F4F6"
+              borderWidth={0}
+              rounded="circle"
+              onPress={() => Toast.show({ type: "info", text1: "Apple login" })}
+              px={20}
+              py={13}
+            >
+              <Icon name="apple" fontFamily="FontAwesome" fontSize={24} color="black" />
+            </Button>
+          )}
+        </Div>
+        <Div flexDir="row" alignItems="center" mt={10}>
+          <Text color="gray700" fontSize={15}>{t("dont-have-an-account")}</Text>
+          <Button
+            bg={colors.secondary}
+            px={16}
+            py={7}
+            ml={10}
+            rounded="circle"
+            onPress={() => navigation.navigate("Register")}
+          >
+            <Text color="white" fontWeight="bold" fontSize={15}>{t("register")}</Text>
+          </Button>
         </Div>
       </Div>
     </Div>

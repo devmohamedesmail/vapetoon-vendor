@@ -50,53 +50,77 @@ const Register = () => {
 
 
     return (
-        <Div pt={100} px={20} flex={1} bg="white">
-
-            <Image w="90%" h={200} alignSelf="center" mb={50}  source={require('../../../assets/images/register.jpg')} />
-
-            <Custom_input
-                placeholder={t('username')}
-                prefix={<AntDesign name="user" size={20} color="black" />}
-                value={formik.values.name}
-                onChangeText={formik.handleChange('username')}
-                error={formik.errors.username}
-            />
-
-            <Custom_input
-                placeholder={t('email')}
-                prefix={<Fontisto name="email" size={20} color="black" />}
-                value={formik.values.email}
-                onChangeText={formik.handleChange('email')}
-                error={formik.errors.email}
-            />
-
-            <Custom_input
-                placeholder={t('password')}
-                prefix={<AntDesign name="lock" size={20} color="black" />}
-                value={formik.values.password}
-                onChangeText={formik.handleChange('password')}
-                error={formik.errors.password}
-                secureTextEntry={true}
-
-            />
-
-            <Custom_button
-                title={loading ? t('registering') : t('register')}
-                w="100%"
-                disabled={!formik.isValid || loading}
-                onPress={formik.handleSubmit} />
-
-
-
-            <Div mt={20} flexDir="row" justifyContent="center" alignItems="center">
-                <Text textAlign="center"  color={colors.primary} >
-                    {t('dont-have-an-account')}
-                </Text>
-                <Button bg={colors.secondary} px={10} py={5}  mx={5} onPress={() => navigation.navigate('Login')}>{t('login')}</Button>
-            </Div>
-
-
+     <Div flex={1} bg={{ linearGradient: "90deg, #F7F8FA 60%, #E0EAFC 100%" }} justifyContent="center" alignItems="center" px={0}>
+      <Div w="100%" maxW={400} bg="white" rounded="3xl" p={28} alignItems="center" mx={0}>
+        <Image
+          source={require('../../../assets/images/register.jpg')}
+          w={100}
+          h={100}
+          mb={20}
+          rounded="circle"
+          style={{ borderWidth: 3, borderColor: "#E0EAFC" }}
+        />
+        <Text fontWeight="bold" fontSize={30} color={colors.primary} mb={6} letterSpacing={1.2}>
+          {t("register")}
+        </Text>
+        <Text color="gray600" fontSize={15} mb={18} textAlign="center">
+          {t("register_to_continue")}
+        </Text>
+        <Custom_input
+          value={formik.values.username}
+          placeholder={t('username')}
+          onChangeText={formik.handleChange('username')}
+          error={formik.touched.username && formik.errors.username}
+          mb={10}
+          w="100%"
+          icon={<AntDesign name="user" size={20} color={colors.secondary} />}
+        />
+        <Custom_input
+          value={formik.values.email}
+          placeholder={t('email')}
+          onChangeText={formik.handleChange('email')}
+          error={formik.touched.email && formik.errors.email}
+          mb={10}
+          w="100%"
+          icon={<Fontisto name="email" size={20} color={colors.secondary} />}
+        />
+        <Custom_input
+          value={formik.values.password}
+          placeholder={t('password')}
+          onChangeText={formik.handleChange('password')}
+          error={formik.touched.password && formik.errors.password}
+          secureTextEntry
+          mb={16}
+          w="100%"
+          icon={<AntDesign name="lock" size={20} color={colors.secondary} />}
+        />
+        <Custom_button
+          title={loading ? t('registering') : t('register')}
+          w="100%"
+          disabled={!formik.isValid || loading}
+          onPress={formik.handleSubmit}
+          block
+          bg={colors.primary}
+          mb={18}
+          rounded="xl"
+          fontSize={18}
+          style={{ elevation: 0 }}
+        />
+        <Div flexDir="row" mt={10}>
+          <Text color="gray700" fontSize={15}>{t("already-have-an-account")}</Text>
+          <Button
+            bg={colors.secondary}
+            px={16}
+            py={7}
+            ml={10}
+            rounded="circle"
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text color="white" fontWeight="bold" fontSize={15}>{t("login")}</Text>
+          </Button>
         </Div>
+      </Div>
+    </Div>
     )
 }
 
