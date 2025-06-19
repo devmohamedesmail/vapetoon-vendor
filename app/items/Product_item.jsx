@@ -205,24 +205,36 @@ const Product_item = ({ product, fetchProducts }) => {
                     <Button
                         bg="#FEE2E2"
                         rounded="lg"
-                        px={12}
+                        px={8}
                         py={8}
-                        mr={6}
+                        mr={4}
                         flex={1}
                         onPress={handleDelete}
                     >
-                        <Feather name="trash-2" size={16} color="#EF4444" />
+                        <Feather name="trash-2" size={14} color="#EF4444" />
+                    </Button>
+                    
+                    <Button
+                        bg="#F0F9FF"
+                        rounded="lg"
+                        px={8}
+                        py={8}
+                        mr={4}
+                        flex={1}
+                        onPress={() => navigation.navigate('UpdateProduct', { product: product })}
+                    >
+                        <Feather name="edit-3" size={14} color="#0EA5E9" />
                     </Button>
                     
                     <Button 
                         bg={colors.secondary}
                         rounded="lg"
-                        px={12}
+                        px={8}
                         py={8}
                         flex={1}
                         onPress={() => navigation.navigate('Details', { product: product })}
                     >
-                        <Feather name="eye" size={16} color="white" />
+                        <Feather name="eye" size={14} color="white" />
                     </Button> 
                 </Div>
             </Div>

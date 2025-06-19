@@ -144,7 +144,14 @@ const Custom_header = ({ title }) => {
                             w="100%"
                             justifyContent="flex-start"
                             shadow="sm"
-                            onPress={() => navigation.navigate('Settings')}
+                            onPress={() => {
+                                if (drawerRef.current) {
+                                    drawerRef.current.close();
+                                }
+                                setTimeout(()=>{
+                                    navigation.navigate('Settings')
+                                }, 1000)
+                            }}
                         >
                             <Div flexDir="row" alignItems="center" w="100%">
                                 <Div
@@ -175,7 +182,15 @@ const Custom_header = ({ title }) => {
                             w="100%"
                             justifyContent="flex-start"
                             shadow="sm"
-                            onPress={() => navigation.navigate('Help')}
+                            onPress={() => {
+                                if (drawerRef.current) {
+                                    drawerRef.current.close();
+                                }
+                                setTimeout(() => {
+                                    navigation.navigate('Help')
+                                }, 1000);
+                               
+                            }}
                         >
                             <Div flexDir="row" alignItems="center" w="100%">
                                 <Div

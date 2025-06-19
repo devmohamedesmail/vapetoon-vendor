@@ -114,6 +114,11 @@ export default function Home() {
                                 title={'Store'}
                                 onPress={() => navigation.navigate('UpdateVendor', { vendor: vendor })}
                             />
+                            <Custom_home_item
+                                icon={require('../../../assets/images/google.png')}
+                                title={t('help_support')}
+                                onPress={() => navigation.navigate('Help')}
+                            />
                         </Div>
 
 

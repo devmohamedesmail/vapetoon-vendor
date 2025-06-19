@@ -10,6 +10,10 @@ import Orders from './screens/orders/Orders';
 import OrderDetails from './screens/orders/OrderDetails';
 import UpdateVendor from './screens/CreateVendor/UpdateVendor';
 import Details from './screens/products/Details';
+import UpdateProduct from './screens/products/UpdateProduct';
+import Help from './screens/help/Help';
+import Settings from './screens/settings/Settings';
+
 
 const AppNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -30,6 +34,9 @@ const AppNavigator = () => {
         <Stack.Screen name="Orders" component={Orders} />
         <Stack.Screen name="OrderDetails" component={OrderDetails} />
         <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="UpdateProduct" component={UpdateProduct} />
+        <Stack.Screen name="Help" component={Help} />
+        <Stack.Screen name="Settings" component={Settings} />
 
 
 

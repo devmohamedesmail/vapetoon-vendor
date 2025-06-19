@@ -80,66 +80,80 @@ const Orders = () => {
 
 
     return (
-        <Div flex={1} bg="white">
+        <Div flex={1} bg="#F8FAFC">
             <Custom_header title={t('my-orders')} />
-            <Div px={10} mt={10}>
+            
+            {/* Tab Section */}
+            <Div px={16} mt={12} mb={8}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {orderTabs.map(tab => (
-                        // <Button
-                        //     key={tab.key}
-                        //     bg={activeTab === tab.key ? colors.primary : colors.secondary}
-                        //     color={activeTab === tab.key ? 'white' : 'white'}
-                        //     px={12}
-                        //     py={8}
-                        //     rounded="md"
-                        //     mx={2}
-                        //     onPress={() => setActiveTab(tab.key)}
-                        // >
-                        //     <Text color='white'>{t(tab.label)}</Text>
-                        // </Button>
+                    {orderTabs.map((tab, index) => (
                         <Button_tab
+                            key={tab.key}
                             icon={tab.icon}
                             bg={activeTab === tab.key ? colors.primary : colors.secondary}
                             onPress={() => setActiveTab(tab.key)}
                             color={activeTab === tab.key ? 'white' : 'white'}
-                            key={tab.key}
-                            title={t(tab.label)}
+                            title={tab.label}
+                            mr={index < orderTabs.length - 1 ? 8 : 0}
                         />
                     ))}
                 </ScrollView>
             </Div>
-            <ScrollDiv>
-                
 
+            {/* Orders List */}
+            <ScrollDiv flex={1} px={8}>
                 {loading ? (
                     <Skeleton_loading_item />
-                ):(
-                    <Div px={10} py={10}>
-                    {activeTab === 'completed' && completedOrders.length > 0 ? (
-                        completedOrders.map(order => (
-                            <Order_item key={order.id} order={order} />
-                        ))
-                    ) : activeTab === 'pending' && pendingOrders.length > 0 ? (
-                        pendingOrders.map(order => (
-                            <Order_item key={order.id} order={order} />
-                        ))
-                    ) : activeTab === 'processing' && processingOrders.length > 0 ? (
-                        processingOrders.map(order => (
-                            <Order_item key={order.id} order={order} />
-                        ))
-                    ) : activeTab === 'canceled' && canceledOrders.length > 0 ? (
-                        canceledOrders.map(order => (
-                            <Order_item key={order.id} order={order} />
-                        ))
-                    ) : (
-                        <Text color="gray700" textAlign='center'>{t('no_orders_found')}</Text>
-                    )}
-                </Div>
+                ) : (
+                    <Div py={8}>
+                        {activeTab === 'completed' && completedOrders.length > 0 ? (
+                            completedOrders.map(order => (
+                                <Order_item key={order.id} order={order} />
+                            ))
+                        ) : activeTab === 'pending' && pendingOrders.length > 0 ? (
+                            pendingOrders.map(order => (
+                                <Order_item key={order.id} order={order} />
+                            ))
+                        ) : activeTab === 'processing' && processingOrders.length > 0 ? (
+                            processingOrders.map(order => (
+                                <Order_item key={order.id} order={order} />
+                            ))
+                        ) : activeTab === 'canceled' && canceledOrders.length > 0 ? (
+                            canceledOrders.map(order => (
+                                <Order_item key={order.id} order={order} />
+                            ))
+                        ) : (
+                            <Div 
+                                alignItems="center" 
+                                justifyContent="center" 
+                                py={40}
+                                bg="white"
+                                rounded="2xl"
+                                mx={8}
+                                shadow="sm"
+                            >
+                                <AntDesign name="inbox" size={48} color="#9CA3AF" />
+                                <Text 
+                                    color="#6B7280" 
+                                    textAlign="center" 
+                                    fontSize={16} 
+                                    fontWeight="500"
+                                    mt={12}
+                                >
+                                    {t('no_orders_found')}
+                                </Text>
+                                <Text 
+                                    color="#9CA3AF" 
+                                    textAlign="center" 
+                                    fontSize={14}
+                                    mt={4}
+                                >
+                                    No {activeTab} orders at the moment
+                                </Text>
+                            </Div>
+                        )}
+                    </Div>
                 )}
-
-
-
-
             </ScrollDiv>
         </Div>
     )
