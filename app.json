@@ -2,18 +2,23 @@
   "expo": {
     "name": "Vendora Vendor",
     "slug": "vendora-vendor",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "description": "Professional vendor management app for managing products, orders, and store operations with ease.",
+    "keywords": ["vendor", "ecommerce", "business", "store management", "products", "orders"],
+    "privacy": "public",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dev.mohamed.esmail.vendoravendor",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +26,16 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.dev.mohamed.esmail.vendoravendor"
+      "package": "com.dev.mohamed.esmail.vendoravendor",
+      "versionCode": 2,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.dev.mohamed.esmail.vendoravendor"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,6 +44,9 @@
       "eas": {
         "projectId": "9d6ea8fb-332f-4541-8da0-12111bda7f0d"
       }
-    }
+    },
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }

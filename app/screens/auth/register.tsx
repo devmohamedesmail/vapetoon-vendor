@@ -1,6 +1,6 @@
-import Custom_input from "../../custom/Custom_input"
+import Custom_Input from "../../custom/custom_input"
 import { Div ,Text,Button, Image} from "react-native-magnus"
-import Custom_button from "../../custom/Custom_button"
+import Custom_Button from "../../custom/custom_button"
 import { useFormik } from "formik"
 import * as Yup from 'yup'
 import { useTranslation } from "react-i18next"
@@ -15,7 +15,7 @@ const Register = () => {
     const { t } = useTranslation();
     const { handle_register } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
 
     const formik = useFormik({
         initialValues: {
@@ -50,7 +50,7 @@ const Register = () => {
 
 
     return (
-     <Div flex={1} bg={{ linearGradient: "90deg, #F7F8FA 60%, #E0EAFC 100%" }} justifyContent="center" alignItems="center" px={0}>
+     <Div flex={1} bg="white" justifyContent="center" alignItems="center" px={0}>
       <Div w="100%" maxW={400} bg="white" rounded="3xl" p={28} alignItems="center" mx={0}>
         <Image
           source={require('../../../assets/images/register.jpg')}
@@ -66,7 +66,7 @@ const Register = () => {
         <Text color="gray600" fontSize={15} mb={18} textAlign="center">
           {t("register_to_continue")}
         </Text>
-        <Custom_input
+        <Custom_Input
           value={formik.values.username}
           placeholder={t('username')}
           onChangeText={formik.handleChange('username')}
@@ -75,7 +75,7 @@ const Register = () => {
           w="100%"
           icon={<AntDesign name="user" size={20} color={colors.secondary} />}
         />
-        <Custom_input
+        <Custom_Input
           value={formik.values.email}
           placeholder={t('email')}
           onChangeText={formik.handleChange('email')}
@@ -84,7 +84,7 @@ const Register = () => {
           w="100%"
           icon={<Fontisto name="email" size={20} color={colors.secondary} />}
         />
-        <Custom_input
+        <Custom_Input
           value={formik.values.password}
           placeholder={t('password')}
           onChangeText={formik.handleChange('password')}
@@ -94,7 +94,7 @@ const Register = () => {
           w="100%"
           icon={<AntDesign name="lock" size={20} color={colors.secondary} />}
         />
-        <Custom_button
+        <Custom_Button
           title={loading ? t('registering') : t('register')}
           w="100%"
           disabled={!formik.isValid || loading}
@@ -109,14 +109,14 @@ const Register = () => {
         <Div flexDir="row" mt={10}>
           <Text color="gray700" fontSize={15}>{t("already-have-an-account")}</Text>
           <Button
-            bg={colors.secondary}
+            bg="transparent"
             px={16}
             py={7}
             ml={10}
             rounded="circle"
             onPress={() => navigation.navigate("Login")}
           >
-            <Text color="white" fontWeight="bold" fontSize={15}>{t("login")}</Text>
+            <Text color="black" textDecorLine="underline" fontSize={12}>{t("login")}</Text>
           </Button>
         </Div>
       </Div>

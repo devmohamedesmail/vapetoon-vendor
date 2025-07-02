@@ -1,21 +1,25 @@
-
 import React, { useState, useEffect } from 'react'
 import { Div, ScrollDiv, Text, Skeleton, Image, Button } from 'react-native-magnus'
-import Custom_header from '../../custom/Custom_header'
+import Custom_header from '../../custom/custom_header'
 import { useTranslation } from 'react-i18next'
 import Product_item from '../../items/Product_item'
 import axios from 'axios'
 import { colors } from '../../config/colors'
 import { api } from '../../config/api'
-import { useRoute } from '@react-navigation/native'
+import { RouteProp, useRoute } from '@react-navigation/native'
 import { useNavigation } from '@react-navigation/native'
+
+// Add route params type
+type ShowRouteParams = {
+  vendorId?: string;
+};
 
 const Show = () => {
   const { t } = useTranslation();
   const [products, setProducts] = useState(null);
-  const route = useRoute();
+  const route = useRoute<RouteProp<Record<string, ShowRouteParams>, string>>();
   const vendorId = route.params?.vendorId;
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   // Move fetchProducts outside useEffect
   const fetchProducts = async () => {

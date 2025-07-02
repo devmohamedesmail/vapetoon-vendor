@@ -1,16 +1,16 @@
-import { View, Alert, Text, ScrollView, Platform, KeyboardAvoidingView } from 'react-native'
+import { View, Alert, ScrollView, Platform, KeyboardAvoidingView } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
-import { Div, Button, Icon, Dropdown, ScrollDiv, Image } from 'react-native-magnus'
-import Custom_input from '../../custom/Custom_input'
+import { Div, Button, Icon, Dropdown, ScrollDiv, Image , Text } from 'react-native-magnus'
+import Custom_Input from '../../custom/custom_input'
 import { useFormik } from 'formik'
-import Custom_button from '../../custom/Custom_button'
+import Custom_Button from '../../custom/custom_button'
 import * as Yup from 'yup'
 import { api } from '../../config/api'
 import axios from 'axios'
-import Custom_header from '../../custom/Custom_header'
+import Custom_header from '../../custom/custom_header'
 import { uploadImagesToStrapi } from '../../utils/upload_images'
-import Custom_images_picker from '../../custom/Custom_images_picker'
-import { DataContext } from '../../context/DataProvide'
+import Custom_Images_Picker from '../../custom/custom_images_picker'
+import { DataContext } from '../../context/data_provider'
 import { useTranslation } from 'react-i18next'
 import { colors } from '../../config/colors'
 import { Toast } from 'toastify-react-native'
@@ -21,7 +21,7 @@ import Custom_Select from '../../custom/custom_select'
 const UpdateProduct = () => {
   const route = useRoute()
   const navigation = useNavigation()
-  const { product } = route.params;
+  const { product }:any = route.params;
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const { categories } = useContext(DataContext)
@@ -59,6 +59,7 @@ const UpdateProduct = () => {
       price: product.price?.toString() || '',
       stock: product.stock?.toString() || '',
       sale: product.sale?.toString() || '',
+      images: [],
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -146,10 +147,10 @@ const UpdateProduct = () => {
               Toast.show({
                 text1: t('product_deleted_successfully'),
                 type: 'success',
-                duration: 3000,
+                
               });
 
-              navigation.navigate('Show'); // Navigate to products list
+              navigation.navigate('Show' as never); // Navigate to products list
               
             } catch (error) {
               Alert.alert(t('error'), t('delete_failed'));
@@ -157,7 +158,7 @@ const UpdateProduct = () => {
               Toast.show({
                 text1: t('product_deleted_failed'),
                 type: 'error',
-                duration: 3000,
+                
               });
             } finally {
               setLoading(false);
@@ -220,54 +221,54 @@ const UpdateProduct = () => {
           }}
           placeholder={t('select-category')}
           icon="grid"
-          error={formik.touched.category && formik.errors.category}
+          error={typeof formik.errors.category === 'string' && formik.touched.category ? formik.errors.category : undefined}
         />
 
-        <Custom_input
+        <Custom_Input
           placeholder={t('product_title')}
           value={formik.values.title}
           onChangeText={formik.handleChange('title')}
-          error={formik.touched.title && formik.errors.title}
+          error={typeof formik.errors.title === 'string' && formik.touched.title ? formik.errors.title : undefined}
         />
 
-        <Custom_input
+        <Custom_Input
           placeholder={t('description')}
           multiline
           value={formik.values.description}
           onChangeText={formik.handleChange('description')}
-          error={formik.touched.description && formik.errors.description}
+          error={typeof formik.errors.description === 'string' && formik.touched.description ? formik.errors.description : undefined}
         />
 
-        <Custom_input
+        <Custom_Input
           placeholder={t('price')}
           value={formik.values.price}
           onChangeText={formik.handleChange('price')}
           keyboardType="numeric"
-          error={formik.touched.price && formik.errors.price}
+          error={typeof formik.errors.price === 'string' && formik.touched.price ? formik.errors.price : undefined}
         />
 
-        <Custom_input
+        <Custom_Input
           placeholder={t('stock')}
           value={formik.values.stock}
           onChangeText={formik.handleChange('stock')}
           keyboardType="numeric"
-          error={formik.touched.stock && formik.errors.stock}
+          error={typeof formik.errors.stock === 'string' && formik.touched.stock ? formik.errors.stock : undefined}
         />
 
-        <Custom_input
+        <Custom_Input
           placeholder={t('sale')}
           value={formik.values.sale}
           onChangeText={formik.handleChange('sale')}
           keyboardType="numeric"
-          error={formik.touched.sale && formik.errors.sale}
+          error={typeof formik.errors.sale === 'string' && formik.touched.sale ? formik.errors.sale : undefined}
         />
 
-        <Custom_images_picker
+        <Custom_Images_Picker
           images={images}
           setImages={setImages}
         />
 
-        {formik.errors.images && (
+        {typeof formik.errors.images === 'string' && (
           <Div>
             <Text style={{ color: 'red' }}>{formik.errors.images}</Text>
           </Div>
@@ -275,7 +276,7 @@ const UpdateProduct = () => {
 
         {/* Action Buttons */}
         <Div flexDir="row" mt={30} mb={100}>
-          <Custom_button
+          <Custom_Button
             title={loading ? t('updating_product') : t('update_product')}
             onPress={formik.handleSubmit}
             disabled={loading}
@@ -284,7 +285,7 @@ const UpdateProduct = () => {
             style={{ flex: 1, marginRight: 8 }}
           />
           
-          <Custom_button
+          <Custom_Button
             title={t('delete_product')}
             onPress={handleDeleteProduct}
             disabled={loading}

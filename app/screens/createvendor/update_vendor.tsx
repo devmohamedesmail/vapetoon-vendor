@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Div, Image, ScrollDiv, Text } from 'react-native-magnus'
-import Custom_header from '../../custom/Custom_header'
+import Custom_header from '../../custom/custom_header'
 import { useTranslation } from 'react-i18next'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useFormik } from 'formik'
-import Custom_input from '../../custom/Custom_input'
-import Custom_image_picker from '../../custom/Custom_image_picker'
-import Custom_button from '../../custom/Custom_button'
+import Custom_Input from '../../custom/custom_input'
+import Custom_Image_Picker from '../../custom/custom_image_picker'
+import Custom_Button from '../../custom/custom_button'
 import { uploadImagesToStrapi } from '../../utils/upload_images'
 import { Toast } from 'toastify-react-native'
 import axios from 'axios'
@@ -18,9 +18,9 @@ const UpdateVendor = () => {
     const [logo, setLogo] = useState(null);
     const [banner, setBanner] = useState(null);
     const [loading, setLoading] = useState(false);
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const route = useRoute();
-    const { vendor } = route.params;
+    const { vendor }:any = route.params;
 
 
     const formik = useFormik({
@@ -70,7 +70,7 @@ const UpdateVendor = () => {
                 Toast.show({
                     type: 'success',
                     text1: 'Vendor updated successfully',
-                    duration: 3000,
+                  
                 })
                 setLoading(false);
                 navigation.navigate("Home");
@@ -80,7 +80,7 @@ const UpdateVendor = () => {
                 Toast.show({
                     type: 'error',
                     text1: 'Failed to update vendor',
-                    duration: 3000,
+                 
                 });
                 setLoading(false);
             } finally {
@@ -95,32 +95,32 @@ const UpdateVendor = () => {
             <ScrollDiv>
 
                 <Div px={10} py={20} pb={250}>
-                    <Custom_input
+                    <Custom_Input
                         placeholder={t('store-name')}
                         value={formik.values.vendor_name}
                         onChangeText={formik.handleChange('vendor_name')}
-                        error={formik.errors.vendor_name}
+                        error={typeof formik.errors.vendor_name === 'string' ? formik.errors.vendor_name : undefined}
                     />
 
 
 
-                    <Custom_input
+                    <Custom_Input
                         placeholder={t('phone')}
                         value={formik.values.phone}
                         onChangeText={formik.handleChange('phone')}
-                        error={formik.errors.phone}
+                        error={typeof formik.errors.phone === 'string' ? formik.errors.phone : undefined}
                     />
-                    <Custom_input
+                    <Custom_Input
                         placeholder={t('description')}
                         value={formik.values.description}
                         onChangeText={formik.handleChange('description')}
-                        error={formik.errors.description}
+                        error={typeof formik.errors.description === 'string' ? formik.errors.description : undefined}
                         multiline
                     />
 
                     <Image alignSelf='center' w={100} h={100} source={{ uri: vendor.logo.formats.thumbnail.url }} />
 
-                    <Custom_image_picker
+                    <Custom_Image_Picker
                         image={logo}
                         setImage={img => {
                             setLogo(img);
@@ -128,12 +128,12 @@ const UpdateVendor = () => {
                         }}
                         label={t('pick-logo')}
                     />
-                    {formik.errors.logo && <Div><Text style={{ color: 'red' }}>{formik.errors.logo}</Text></Div>}
+                    {typeof formik.errors.logo === 'string' && <Div><Text style={{ color: 'red' }}>{formik.errors.logo}</Text></Div>}
 
 
 
                     <Image alignSelf='center' w={100} h={100} source={{ uri: vendor.banner.formats.thumbnail.url }} />
-                    <Custom_image_picker
+                    <Custom_Image_Picker
                         image={banner}
                         setImage={img => {
                             setBanner(img);
@@ -141,9 +141,9 @@ const UpdateVendor = () => {
                         }}
                         label={t('pick-banner')}
                     />
-                    {formik.errors.banner && <Div><Text style={{ color: 'red' }}>{formik.errors.banner}</Text></Div>}
+                    {typeof formik.errors.banner === 'string' && <Div><Text style={{ color: 'red' }}>{formik.errors.banner}</Text></Div>}
 
-                    <Custom_button
+                    <Custom_Button
                         mt={100}
                         title={loading ? t('updating') : t('update-store')}
                         onPress={() => {

@@ -1,17 +1,17 @@
 import { View, Alert, Text, ScrollView, Platform, KeyboardAvoidingView } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { Div, Button, Icon, Dropdown, ScrollDiv, Image } from 'react-native-magnus'
-import Custom_input from '../../custom/Custom_input'
+import Custom_Input from '../../custom/custom_input'
 import { useFormik } from 'formik'
-import Custom_button from '../../custom/Custom_button'
+import Custom_Button from '../../custom/custom_button'
 
 import * as Yup from 'yup'
 import { api } from '../../config/api'
 import axios from 'axios'
-import Custom_header from '../../custom/Custom_header'
+import Custom_header from '../../custom/custom_header'
 import { uploadImagesToStrapi } from '../../utils/upload_images'
-import Custom_images_picker from '../../custom/Custom_images_picker'
-import { DataContext } from '../../context/DataProvide'
+import Custom_Images_Picker from '../../custom/custom_images_picker'
+import { DataContext } from '../../context/data_provider'
 import { useTranslation } from 'react-i18next'
 import { colors } from '../../config/colors'
 import { Toast } from 'toastify-react-native'
@@ -31,7 +31,7 @@ import Custom_Select from '../../custom/custom_select'
 
 const AddProduct = () => {
   const route = useRoute()
-  const { vendorId } = route.params;
+  const { vendorId }:any = route.params;
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const { categories } = useContext(DataContext)
@@ -61,8 +61,7 @@ const AddProduct = () => {
       price: '',
       stock: '',
       sale: '',
-
-
+      images: [],
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -132,7 +131,7 @@ const AddProduct = () => {
           error={formik.touched.category && formik.errors.category}
         />
 
-        <Custom_input
+        <Custom_Input
           placeholder={'Product Title'}
           value={formik.values.title}
           onChangeText={formik.handleChange('title')}
@@ -140,7 +139,7 @@ const AddProduct = () => {
         />
 
 
-        <Custom_input
+        <Custom_Input
           placeholder={'Description'}
           multiline
           value={formik.values.description}
@@ -149,7 +148,7 @@ const AddProduct = () => {
         />
 
 
-        <Custom_input
+        <Custom_Input
           placeholder={'Price'}
           value={formik.values.price}
           onChangeText={formik.handleChange('price')}
@@ -158,7 +157,7 @@ const AddProduct = () => {
         />
 
 
-        <Custom_input
+        <Custom_Input
           placeholder={'Stock'}
           value={formik.values.stock}
           onChangeText={formik.handleChange('stock')}
@@ -167,7 +166,7 @@ const AddProduct = () => {
         />
 
 
-        <Custom_input
+        <Custom_Input
           placeholder={'Sale'}
           value={formik.values.sale}
           onChangeText={formik.handleChange('sale')}
@@ -177,13 +176,13 @@ const AddProduct = () => {
 
 
 
-        <Custom_images_picker
+        <Custom_Images_Picker
           images={images}
           setImages={setImages}
         // onImagesSelected={(imgs) => console.log('Selected:', imgs)}
         />
 
-        {formik.errors.images && (
+        {typeof formik.errors.images === 'string' && (
           <Div>
             <Text style={{ color: 'red' }}>{formik.errors.images}</Text>
           </Div>
@@ -193,7 +192,7 @@ const AddProduct = () => {
 
 
 
-        <Custom_button
+        <Custom_Button
           title={loading ? t('adding-product') : t('add-product')}
           onPress={formik.handleSubmit}
           disabled={loading}

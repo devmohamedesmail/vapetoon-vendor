@@ -1,13 +1,13 @@
 
 import { Div, ScrollDiv, Text } from 'react-native-magnus'
 import { useTranslation } from 'react-i18next'
-import Custom_header from '../../custom/Custom_header';
+import Custom_header from '../../custom/custom_header';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useContext, useState } from 'react';
-import Custom_button from '../../custom/Custom_button';
-import Custom_input from '../../custom/Custom_input';
-import Custom_image_picker from '../../custom/Custom_image_picker';
+import Custom_Button from '../../custom/custom_button';
+import Custom_Input from '../../custom/custom_input';
+import Custom_Image_Picker from '../../custom/custom_image_picker';
 import { api } from '../../config/api';
 import { uploadImagesToStrapi } from '../../utils/upload_images';
 import { AuthContext } from '../../context/AuthProvider';
@@ -15,15 +15,21 @@ import axios from 'axios';
 import { Toast } from 'toastify-react-native'
 import { useNavigation, useRoute } from '@react-navigation/native';
 
+import { RouteProp } from '@react-navigation/native';
 
+
+
+type CreateVendorRouteParams = {
+  fetchVendor?: () => void;
+};
 const CreateVendor = () => {
   const { t } = useTranslation();
   const [logo, setLogo] = useState(null);
   const [banner, setBanner] = useState(null);
   const [loading, setLoading] = useState(false);
   const { auth } = useContext(AuthContext)
-  const navigation = useNavigation();
-  const route = useRoute();
+  const navigation = useNavigation<any>();
+  const route = useRoute<RouteProp<Record<string, CreateVendorRouteParams>, string>>();
   const fetchVendor = route.params?.fetchVendor;
 
   const formik = useFormik({
@@ -78,11 +84,9 @@ const CreateVendor = () => {
         Toast.show({
           type: 'success',
           text1: `${t('vendor-created-successfully')}`,
-          duration: 3000,
+         
         })
-        // formik.resetForm();
-        // setLogo(null);
-        // setBanner(null);
+      
         fetchVendor();
         navigation.goBack();
       } catch (error) {
@@ -91,7 +95,7 @@ const CreateVendor = () => {
         Toast.show({
           type: 'error',
           text1: `${t('failed-to-create-vendor')}`,
-          duration: 3000,
+          
         })
       } finally {
         setLoading(false);
@@ -106,7 +110,7 @@ const CreateVendor = () => {
 
       <ScrollDiv>
         <Div px={10} py={20} pb={250}>
-          <Custom_input
+          <Custom_Input
             placeholder={t('store-name')}
             value={formik.values.vendor_name}
             onChangeText={formik.handleChange('vendor_name')}
@@ -115,13 +119,13 @@ const CreateVendor = () => {
 
 
 
-          <Custom_input
+          <Custom_Input
             placeholder={t('phone')}
             value={formik.values.phone}
             onChangeText={formik.handleChange('phone')}
             error={formik.errors.phone}
           />
-          <Custom_input
+          <Custom_Input
             placeholder={t('description')}
             value={formik.values.description}
             onChangeText={formik.handleChange('description')}
@@ -131,7 +135,7 @@ const CreateVendor = () => {
 
 
 
-          <Custom_image_picker
+          <Custom_Image_Picker
             image={logo}
             setImage={img => {
               setLogo(img);
@@ -144,7 +148,7 @@ const CreateVendor = () => {
 
 
 
-          <Custom_image_picker
+          <Custom_Image_Picker
             image={banner}
             setImage={img => {
               setBanner(img);
@@ -154,13 +158,10 @@ const CreateVendor = () => {
           />
           {formik.errors.banner && <Div><Text style={{ color: 'red' }}>{formik.errors.banner}</Text></Div>}
 
-          <Custom_button
+          <Custom_Button
             mt={100}
             title={loading ? t('creating') : t('create-vendor')}
             onPress={() => {
-              // Set formik values for logo and banner to pass validation
-              // formik.setFieldValue('logo', logo.length ? 'selected' : '');
-              // formik.setFieldValue('banner', banner.length ? 'selected' : '');
               formik.handleSubmit();
             }}
             disabled={!formik.isValid || loading}

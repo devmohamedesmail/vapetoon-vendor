@@ -2,7 +2,7 @@
 import { useRoute } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Button, Div, ScrollDiv, Text } from 'react-native-magnus';
-import Custom_header from '../../custom/Custom_header';
+import Custom_header from '../../custom/custom_header';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../config/colors';
 import { ScrollView } from 'react-native';
@@ -30,7 +30,7 @@ const Orders = () => {
     const route = useRoute();
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('completed');
-    const { vendorId } = route.params || 22;
+    const { vendorId }:any = route.params || 22;
     const [loading, setLoading] = useState(false);
 
 
@@ -49,7 +49,7 @@ const Orders = () => {
     const fetch_vendor_orders = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`https://ecommerce-strapi-ex18.onrender.com/api/orders?filters[vendor_id][$eq]=${vendorId}`, {
+            const response = await axios.get(`${api.baseURL}/orders?filters[vendor_id][$eq]=${vendorId}`, {
                 headers: {
                     Authorization: `Bearer ${api.token}`,
                 }
@@ -94,7 +94,7 @@ const Orders = () => {
                             onPress={() => setActiveTab(tab.key)}
                             color={activeTab === tab.key ? 'white' : 'white'}
                             title={tab.label}
-                            mr={index < orderTabs.length - 1 ? 8 : 0}
+                            // mr={index < orderTabs.length - 1 ? 8 : 0}
                         />
                     ))}
                 </ScrollView>

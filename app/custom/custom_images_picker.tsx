@@ -1,11 +1,16 @@
-
 import * as ImagePicker from 'expo-image-picker'
 import { Button, Div, Image , Text } from 'react-native-magnus'
 import { colors } from '../config/colors'
 import Entypo from '@expo/vector-icons/Entypo';
+import React from 'react';
 
+interface CustomImagesPickerProps {
+  images?: Array<{ uri: string; [key: string]: any }>;
+  setImages?: (imgs: Array<{ uri: string; [key: string]: any }>) => void;
+  onImagesSelected?: (imgs: Array<{ uri: string; [key: string]: any }>) => void;
+}
 
-const Custom_images_picker = ({ images = [], setImages, onImagesSelected }) => {
+const Custom_Images_Picker = ({ images = [], setImages, onImagesSelected }: CustomImagesPickerProps = {}) => {
   const pickImages = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
@@ -69,7 +74,6 @@ const Custom_images_picker = ({ images = [], setImages, onImagesSelected }) => {
         bg={colors.secondary} 
         onPress={pickImages} 
         h={50}
-        // w={150}
         rounded="circle"
       >
        <Div flexDir='row' justifyContent='center' w="100%">
@@ -81,4 +85,4 @@ const Custom_images_picker = ({ images = [], setImages, onImagesSelected }) => {
   )
 }
 
-export default Custom_images_picker;
+export default Custom_Images_Picker;

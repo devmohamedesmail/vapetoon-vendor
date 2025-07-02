@@ -1,7 +1,7 @@
 
 import { NavigationContainer } from '@react-navigation/native';
-import DataProvider from './app/context/DataProvide';
-import AppNavigator from './app/AppNavigator';
+import DataProvider from './app/context/data_provider';
+import AppNavigator from './app/app_navigator';
 import AuthProvider from './app/context/AuthProvider';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './app/translation/i18n';

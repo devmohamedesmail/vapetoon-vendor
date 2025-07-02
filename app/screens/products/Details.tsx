@@ -4,7 +4,7 @@ import { Div, Text, Image, ScrollDiv, Button, Icon } from 'react-native-magnus'
 import { colors } from '../../config/colors'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, Pressable } from 'react-native'
-import Custom_header from '../../custom/Custom_header'
+import Custom_header from '../../custom/custom_header'
 
 // Icons
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'

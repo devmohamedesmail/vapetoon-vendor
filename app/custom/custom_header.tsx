@@ -1,16 +1,14 @@
-import { Div, Header, Button, Icon, Drawer, Text } from "react-native-magnus"
+import { Div, Header, Button, Icon, Drawer, Text, DrawerRef } from "react-native-magnus"
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../config/colors";
 import React, { useContext, useRef } from "react";
-import Custom_button from "./Custom_button";
 import { AuthContext } from "../context/AuthProvider";
 import { useTranslation } from "react-i18next";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ToggleLang from "../components/toggleLang";
 
-const Custom_header = ({ title }) => {
-    const navigation = useNavigation();
-    const drawerRef = React.createRef();
+const Custom_Header = ({ title }:any) => {
+    const navigation = useNavigation<any>();
+    const drawerRef = React.createRef<DrawerRef>();
     const { auth, handle_logout } = useContext(AuthContext)
     const { t, i18n } = useTranslation();
 
@@ -33,10 +31,10 @@ const Custom_header = ({ title }) => {
                 suffix={
                     <Button bg="transparent" onPress={() => {
                         if (drawerRef.current) {
-                            drawerRef.current.open();
+                            (drawerRef.current as DrawerRef).open();
                         }
                     }}>
-                        <Icon name="more-vertical" fontFamily="Feather" color="white" />
+                        <Icon name="more-vertical" fontFamily="Feather" color="white" fontSize="2xl" />
                     </Button>
                 }
             >
@@ -46,7 +44,7 @@ const Custom_header = ({ title }) => {
 
 
             <Drawer ref={drawerRef} drawerPercentage={90}>
-                <Div flex={1} bg={{ linearGradient: "180deg, #667eea 0%, #764ba2 100%" }}>
+                <Div flex={1} >
                     {/* Header Section */}
                     <Div pt={20} pb={20} px={20} bg={colors.secondary} alignItems="center">
                         <Div
@@ -72,7 +70,7 @@ const Custom_header = ({ title }) => {
 
                     {/* Navigation Menu */}
                     <Div flex={1} bg="white" roundedTop={30} px={20} pt={30}>
-                        <Button
+                        {/* <Button
                             bg="#F8FAFC"
                             borderWidth={0}
                             rounded="2xl"
@@ -94,14 +92,14 @@ const Custom_header = ({ title }) => {
                                     alignItems="center"
                                     mr={15}
                                 >
-                                    <Icon name="user" fontFamily="Feather" size={18} color="white" />
+                        <Icon name="user" fontFamily="Feather" fontSize={18} color="white" />
                                 </Div>
                                 <Text fontSize={16} fontWeight="600" color={colors.primary} flex={1} textAlign="left">
                                     {t('profile')}
                                 </Text>
-                                <Icon name="chevron-right" fontFamily="Feather" size={18} color="#94A3B8" />
+                                <Icon name="chevron-right" fontFamily="Feather" fontSize={18} color="#94A3B8" />
                             </Div>
-                        </Button>
+                        </Button> */}
 
                         <Button
                             bg="#FEF7FF"
@@ -125,12 +123,12 @@ const Custom_header = ({ title }) => {
                                     alignItems="center"
                                     mr={15}
                                 >
-                                    <Icon name="package" fontFamily="Feather" size={18} color="white" />
+                                    <Icon name="package" fontFamily="Feather" fontSize={18} color="white" />
                                 </Div>
                                 <Text fontSize={16} fontWeight="600" color="#8B5CF6" flex={1} textAlign="left">
                                     {t('orders')}
                                 </Text>
-                                <Icon name="chevron-right" fontFamily="Feather" size={18} color="#94A3B8" />
+                                <Icon name="chevron-right" fontFamily="Feather" fontSize={18} color="#94A3B8" />
                             </Div>
                         </Button>
 
@@ -146,7 +144,7 @@ const Custom_header = ({ title }) => {
                             shadow="sm"
                             onPress={() => {
                                 if (drawerRef.current) {
-                                    drawerRef.current.close();
+                                    (drawerRef.current as DrawerRef).close();
                                 }
                                 setTimeout(()=>{
                                     navigation.navigate('Settings')
@@ -163,12 +161,12 @@ const Custom_header = ({ title }) => {
                                     alignItems="center"
                                     mr={15}
                                 >
-                                    <Icon name="settings" fontFamily="Feather" size={18} color="white" />
+                                    <Icon name="settings" fontFamily="Feather" fontSize={18} color="white" />
                                 </Div>
                                 <Text fontSize={16} fontWeight="600" color="#10B981" flex={1} textAlign="left">
                                     {t('settings')}
                                 </Text>
-                                <Icon name="chevron-right" fontFamily="Feather" size={18} color="#94A3B8" />
+                                <Icon name="chevron-right" fontFamily="Feather" fontSize={18} color="#94A3B8" />
                             </Div>
                         </Button>
 
@@ -184,7 +182,7 @@ const Custom_header = ({ title }) => {
                             shadow="sm"
                             onPress={() => {
                                 if (drawerRef.current) {
-                                    drawerRef.current.close();
+                                    (drawerRef.current as DrawerRef).close();
                                 }
                                 setTimeout(() => {
                                     navigation.navigate('Help')
@@ -202,12 +200,12 @@ const Custom_header = ({ title }) => {
                                     alignItems="center"
                                     mr={15}
                                 >
-                                    <Icon name="help-circle" fontFamily="Feather" size={18} color="white" />
+                                    <Icon name="help-circle" fontFamily="Feather" fontSize={18} color="white" />
                                 </Div>
                                 <Text fontSize={16} fontWeight="600" color="#F59E0B" flex={1} textAlign="left">
                                     {t('help')}
                                 </Text>
-                                <Icon name="chevron-right" fontFamily="Feather" size={18} color="#94A3B8" />
+                                <Icon name="chevron-right" fontFamily="Feather" fontSize={18} color="#94A3B8" />
                             </Div>
                         </Button>
 
@@ -235,7 +233,7 @@ const Custom_header = ({ title }) => {
                                         alignItems="center"
                                         mr={12}
                                     >
-                                        <Icon name="log-out" fontFamily="Feather" size={18} color="white" />
+                                        <Icon name="log-out" fontFamily="Feather" fontSize={18} color="white" />
                                     </Div>
                                     <Text fontSize={16} fontWeight="700" color="white">
                                         {t('logout')}
@@ -250,4 +248,4 @@ const Custom_header = ({ title }) => {
     )
 }
 
-export default Custom_header
+export default Custom_Header

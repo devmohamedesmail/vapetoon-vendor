@@ -1,8 +1,7 @@
-
 import { useRoute } from '@react-navigation/native';
 import { Div, Text, Image, ScrollDiv, Button } from 'react-native-magnus';
 import Swiper from 'react-native-swiper';
-import Custom_header from '../../custom/Custom_header';
+import Custom_header from '../../custom/custom_header';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../config/colors';
 import { Dimensions } from 'react-native';
@@ -12,15 +11,12 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Entypo from '@expo/vector-icons/Entypo';
 
 const { width } = Dimensions.get('window');
 
 const OrderDetails = () => {
   const route = useRoute();
-  const { order } = route.params || {};
+  const { order }:any = route.params || {};
   const { t } = useTranslation();
 
   // Status color mapping
@@ -70,9 +66,9 @@ const OrderDetails = () => {
   const orderTime = order.createdAt ? new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
   // Calculate order total
-  const orderTotal = order?.order?.reduce((total, item) => total + (item.price * item.quantity), 0) || 0;
+  const orderTotal = order?.order?.reduce((total:any, item:any) => total + (item.price * item.quantity), 0) || 0;
 
-  const formatPrice = (price) => {
+  const formatPrice = (price:any) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
@@ -110,7 +106,7 @@ const OrderDetails = () => {
               borderWidth={2}
               borderColor={statusStyle.borderColor}
             >
-              <Feather name={statusStyle.icon} size={18} color={statusStyle.bg} />
+              <Feather name={statusStyle.icon as any} size={18} color={statusStyle.bg} />
               <Text
                 fontSize={14}
                 fontWeight="bold"

@@ -1,18 +1,19 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Home from './screens/Home/Home';
-import AddProduct from './screens/products/Add';
-import Show from './screens/products/Show';
-import Register from './screens/Auth/Register';
-import Login from './screens/Auth/Login';
-import CreateVendor from './screens/CreateVendor/CreateVendor';
-import Orders from './screens/orders/Orders';
-import OrderDetails from './screens/orders/OrderDetails';
-import UpdateVendor from './screens/CreateVendor/UpdateVendor';
-import Details from './screens/products/Details';
-import UpdateProduct from './screens/products/UpdateProduct';
-import Help from './screens/help/Help';
-import Settings from './screens/settings/Settings';
+import Home from './screens/home/home';
+import AddProduct from './screens/products/add';
+import Show from './screens/products/show';
+import Register from './screens/auth/register';
+import Login from './screens/auth/login';
+import CreateVendor from './screens/createvendor/create_vendor';
+import Orders from './screens/orders/orders';
+import OrderDetails from './screens/orders/order_details';
+import UpdateVendor from './screens/createvendor/update_vendor';
+
+import UpdateProduct from './screens/products/update_product';
+import Help from './screens/help/help';
+import Settings from './screens/settings/settings';
+import Details from './screens/products/details';
 
 
 const AppNavigator = () => {

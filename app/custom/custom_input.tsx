@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, ReactNode } from 'react';
 import { Div, Input, Text } from 'react-native-magnus';
 import { colors } from '../config/colors';
 import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-const Custom_input = ({
-  value,
-  placeholder,
-  onChangeText,
-  icon,
-  error,
-  secureTextEntry,
+interface CustomInputProps {
+  value?: string;
+  placeholder?: string;
+  onChangeText?: (text: string) => void;
+  icon?: ReactNode;
+  error?: string;
+  secureTextEntry?: boolean;
+  [key: string]: any;
+}
+
+const Custom_Input = ({
+  value = '',
+  placeholder = '',
+  onChangeText = () => {},
+  icon = null,
+  error = '',
+  secureTextEntry = false,
   ...props
-}) => {
+}: CustomInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const renderSuffix = () => {
@@ -60,4 +70,4 @@ const Custom_input = ({
   );
 };
 
-export default Custom_input;
+export default Custom_Input;

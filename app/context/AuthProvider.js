@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
 
     const handle_login = async (identifier, password) => {
         try {
-            const response = await axios.post(`https://ecommerce-strapi-ex18.onrender.com/api/auth/local`,
+            const response = await axios.post(`${api.baseURL}/auth/local`,
                 {
                     identifier: identifier,
                     password: password
@@ -56,7 +56,7 @@ const AuthProvider = ({ children }) => {
     // handle register user
     const handle_register = async (username, email, password) => {
         try {
-            const response = await axios.post(`https://ecommerce-strapi-ex18.onrender.com/api/auth/local/register`,
+            const response = await axios.post(`${api.baseURL}/auth/local/register`,
                 {
                     username: username,
                     email: email,

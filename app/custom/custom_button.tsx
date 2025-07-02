@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Button, Text, Div } from 'react-native-magnus';
 import { colors } from '../config/colors';
 import { ActivityIndicator } from 'react-native';
 
-const Custom_button = ({
-  title,
-  onPress,
+interface CustomButtonProps {
+  title?: string;
+  onPress?: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'small' | 'medium' | 'large';
+  icon?: ReactNode;
+  [key: string]: any;
+}
+
+const Custom_Button = ({
+  title = '',
+  onPress = () => {},
   disabled = false,
   loading = false,
   variant = 'primary',
   size = 'medium',
-  icon,
+  icon = null,
   ...props
-}) => {
+}: CustomButtonProps) => {
   const getButtonStyle = () => {
     const baseStyle = {
       rounded: 'xl',
-      fontWeight: '600',
+      fontWeight: '600' as const,
       borderWidth: 0,
     };
 
@@ -61,7 +72,7 @@ const Custom_button = ({
 
   return (
     <Button
-      onPress={isDisabled ? null : onPress}
+      onPress={isDisabled ? undefined : onPress}
       opacity={isDisabled ? 0.6 : 1}
       w="100%"
       {...buttonStyle}
@@ -83,7 +94,7 @@ const Custom_button = ({
         )}
         <Text
           fontSize={buttonStyle.fontSize}
-          fontWeight={buttonStyle.fontWeight}
+          fontWeight={buttonStyle.fontWeight || '600'}
           color={buttonStyle.color}
         >
           {loading ? 'Loading...' : title}
@@ -93,4 +104,4 @@ const Custom_button = ({
   );
 };
 
-export default Custom_button;
+export default Custom_Button;

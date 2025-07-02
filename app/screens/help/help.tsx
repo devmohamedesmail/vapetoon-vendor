@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Div, Text, ScrollDiv, Button } from 'react-native-magnus';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../config/colors';
-import Custom_header from '../../custom/Custom_header';
-import Custom_input from '../../custom/Custom_input';
+import Custom_Header from '../../custom/custom_header';
+import Custom_Input from '../../custom/custom_input';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Toast } from 'toastify-react-native';
@@ -13,9 +13,7 @@ import { Pressable, Linking } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
 
 const Help = () => {
     const { t } = useTranslation();
@@ -54,19 +52,18 @@ const Help = () => {
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
             setLoading(true);
-            
             // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            Toast.success({
+            Toast.show({
+                type: 'success',
                 text1: t('help_request_sent'),
                 text2: t('help_request_success'),
             });
-            
             resetForm();
             setSelectedCategory(null);
         } catch (error) {
-            Toast.error({
+            Toast.show({
+                type: 'error',
                 text1: t('error'),
                 text2: t('help_request_failed'),
             });
@@ -86,7 +83,8 @@ const Help = () => {
     };
 
     const handleLiveChat = () => {
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('live_chat'),
             text2: t('live_chat_coming_soon'),
         });
@@ -94,7 +92,7 @@ const Help = () => {
 
     return (
         <Div flex={1} bg="#F1F5F9">
-            <Custom_header title={t('help_support')} />
+            <Custom_Header title={t('help_support')} />
 
             <ScrollDiv flex={1} showsVerticalScrollIndicator={false}>
                 {/* Hero Section */}
@@ -291,7 +289,7 @@ const Help = () => {
                                                     alignItems="center"
                                                 >
                                                     <MaterialIcons 
-                                                        name={category.icon} 
+                                                        name={category.icon as any} 
                                                         size={24} 
                                                         color={selectedCategory === category.id ? category.color : '#6B7280'} 
                                                     />
@@ -308,7 +306,7 @@ const Help = () => {
                                             </Pressable>
                                         ))}
                                     </Div>
-                                    {touched.category && errors.category && (
+                                    {touched.category && typeof errors.category === 'string' && (
                                         <Text fontSize={12} color="#EF4444" mt={4}>
                                             {errors.category}
                                         </Text>
@@ -318,22 +316,22 @@ const Help = () => {
                                 {/* Name and Email */}
                                 <Div flexDir="row" justifyContent="space-between" mb={16}>
                                     <Div flex={0.48}>
-                                        <Custom_input
+                                        <Custom_Input
                                             placeholder={t('your_name')}
                                             value={values.name}
                                             onChangeText={handleChange('name')}
                                             onBlur={handleBlur('name')}
-                                            error={touched.name && errors.name}
+                                            error={touched.name && typeof errors.name === 'string' ? errors.name : undefined}
                                             leftIcon="person"
                                         />
                                     </Div>
                                     <Div flex={0.48}>
-                                        <Custom_input
+                                        <Custom_Input
                                             placeholder={t('email_address')}
                                             value={values.email}
                                             onChangeText={handleChange('email')}
                                             onBlur={handleBlur('email')}
-                                            error={touched.email && errors.email}
+                                            error={touched.email && typeof errors.email === 'string' ? errors.email : undefined}
                                             keyboardType="email-address"
                                             leftIcon="email"
                                         />
@@ -341,12 +339,12 @@ const Help = () => {
                                 </Div>
 
                                 {/* Subject */}
-                                <Custom_input
+                                <Custom_Input
                                     placeholder={t('subject')}
                                     value={values.subject}
                                     onChangeText={handleChange('subject')}
                                     onBlur={handleBlur('subject')}
-                                    error={touched.subject && errors.subject}
+                                    error={touched.subject && typeof errors.subject === 'string' ? errors.subject : undefined}
                                     leftIcon="subject"
                                     mb={16}
                                 />
@@ -382,7 +380,7 @@ const Help = () => {
                                             </Pressable>
                                         ))}
                                     </Div>
-                                    {touched.priority && errors.priority && (
+                                    {touched.priority && typeof errors.priority === 'string' && (
                                         <Text fontSize={12} color="#EF4444" mt={4}>
                                             {errors.priority}
                                         </Text>
@@ -390,12 +388,12 @@ const Help = () => {
                                 </Div>
 
                                 {/* Message */}
-                                <Custom_input
+                                <Custom_Input
                                     placeholder={t('describe_issue')}
                                     value={values.message}
                                     onChangeText={handleChange('message')}
                                     onBlur={handleBlur('message')}
-                                    error={touched.message && errors.message}
+                                    error={touched.message && typeof errors.message === 'string' ? errors.message : undefined}
                                     multiline={true}
                                     numberOfLines={6}
                                     textAlignVertical="top"
@@ -408,7 +406,7 @@ const Help = () => {
                                     bg={colors.primary}
                                     rounded="2xl"
                                     py={16}
-                                    onPress={handleSubmit}
+                                    onPress={() => handleSubmit()}
                                     disabled={isSubmitting || loading}
                                     loading={loading}
                                     shadow="lg"

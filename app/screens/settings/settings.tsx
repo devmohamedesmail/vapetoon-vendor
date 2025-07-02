@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Div, Text, ScrollDiv, Button, Image } from 'react-native-magnus';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../config/colors';
-import Custom_header from '../../custom/Custom_header';
+import Custom_Header from '../../custom/custom_header';
 import { AuthContext } from '../../context/AuthProvider';
 import { Pressable, Alert, Linking, Switch } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -149,21 +149,24 @@ const Settings = () => {
 
     // Handler functions
     const handleEditProfile = () => {
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('coming_soon'),
             text2: t('profile_edit_coming_soon'),
         });
     };
 
     const handleChangePassword = () => {
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('coming_soon'),
             text2: t('password_change_coming_soon'),
         });
     };
 
     const handleVendorSettings = () => {
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('coming_soon'),
             text2: t('vendor_settings_coming_soon'),
         });
@@ -185,12 +188,14 @@ const Settings = () => {
         try {
             await i18n.changeLanguage(lang);
             await AsyncStorage.setItem('language', lang);
-            Toast.success({
+            Toast.show({
+                type: 'success',
                 text1: t('language_changed'),
                 text2: t('language_updated_successfully'),
             });
         } catch (error) {
-            Toast.error({
+            Toast.show({
+                type: 'error',
                 text1: t('error'),
                 text2: t('language_change_failed'),
             });
@@ -212,7 +217,8 @@ const Settings = () => {
 
     const changeTheme = (theme) => {
         setDarkMode(theme === 'dark');
-        Toast.success({
+        Toast.show({
+            type: 'success',
             text1: t('theme_changed'),
             text2: t('theme_updated_successfully'),
         });
@@ -233,21 +239,24 @@ const Settings = () => {
     };
 
     const changeCurrency = (currency) => {
-        Toast.success({
+        Toast.show({
+            type: 'success',
             text1: t('currency_changed'),
             text2: `${t('currency_updated_to')} ${currency}`,
         });
     };
 
     const handleTwoFactorAuth = () => {
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('coming_soon'),
             text2: t('two_factor_coming_soon'),
         });
     };
 
     const handlePrivacySettings = () => {
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('coming_soon'),
             text2: t('privacy_settings_coming_soon'),
         });
@@ -266,14 +275,16 @@ const Settings = () => {
     };
 
     const performBackup = () => {
-        Toast.success({
+        Toast.show({
+            type: 'success',
             text1: t('backup_successful'),
             text2: t('data_backed_up_successfully'),
         });
     };
 
     const performRestore = () => {
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('restore_initiated'),
             text2: t('data_restore_in_progress'),
         });
@@ -281,7 +292,8 @@ const Settings = () => {
 
     const handleHelpCenter = () => {
         // Navigate to Help screen
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('help_center'),
             text2: t('redirecting_to_help'),
         });
@@ -293,7 +305,8 @@ const Settings = () => {
 
     const handleRateApp = () => {
         // Open app store rating
-        Toast.info({
+        Toast.show({
+            type: 'info',
             text1: t('rate_app'),
             text2: t('redirecting_to_store'),
         });
@@ -389,7 +402,7 @@ const Settings = () => {
 
     return (
         <Div flex={1} bg="#F8FAFC">
-            <Custom_header title={t('settings')} />
+            <Custom_Header title={t('settings')} />
 
             <ScrollDiv flex={1} showsVerticalScrollIndicator={false}>
                 {/* User Profile Section */}

@@ -7,16 +7,15 @@ import { useContext, useState } from "react"
 import { useNavigation } from "@react-navigation/native"
 import { useTranslation } from "react-i18next"
 import { AuthContext } from "../../context/AuthProvider"
-import Custom_input from "../../custom/Custom_input"
-import Custom_button from "../../custom/Custom_button"
+import Custom_Input from "../../custom/custom_input"
+import Custom_Button from "../../custom/custom_button"
 import { Toast } from "toastify-react-native"
 import { Platform } from "react-native"
 
 const Login = () => {
   const { auth, handle_login, handle_register, handle_logout } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const { t } = useTranslation();
 
   const formik = useFormik({
@@ -93,7 +92,7 @@ const Login = () => {
         <Text color="gray600" fontSize={15} mb={18} textAlign="center">
           {t("login_to_continue")}
         </Text>
-        <Custom_input
+        <Custom_Input
           value={formik.values.identifier}
           placeholder={t("email")}
           onChangeText={formik.handleChange("identifier")}
@@ -102,7 +101,7 @@ const Login = () => {
           w="100%"
           icon={<Icon name="mail" fontFamily="Feather" fontSize={20} color={colors.secondary} />}
         />
-        <Custom_input
+        <Custom_Input
           value={formik.values.password}
           placeholder={t("password")}
           onChangeText={formik.handleChange("password")}
@@ -112,7 +111,7 @@ const Login = () => {
           w="100%"
           icon={<Icon name="lock" fontFamily="Feather" fontSize={20} color={colors.secondary} />}
         />
-        <Custom_button
+        <Custom_Button
           title={loading ? t("loading") : t("login")}
           onPress={formik.handleSubmit}
           disabled={loading}
@@ -153,14 +152,14 @@ const Login = () => {
         <Div flexDir="row" alignItems="center" mt={10}>
           <Text color="gray700" fontSize={15}>{t("dont-have-an-account")}</Text>
           <Button
-            bg={colors.secondary}
+            bg="transparent"
             px={16}
             py={7}
             ml={10}
             rounded="circle"
             onPress={() => navigation.navigate("Register")}
           >
-            <Text color="white" fontWeight="bold" fontSize={15}>{t("register")}</Text>
+            <Text color="black" textDecorLine="underline" fontSize={12}>{t("register")}</Text>
           </Button>
         </Div>
       </Div>

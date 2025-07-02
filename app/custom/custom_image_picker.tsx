@@ -1,18 +1,20 @@
-
 import * as ImagePicker from 'expo-image-picker'
 import { Button, Div, Image,Text } from 'react-native-magnus'
 import { colors } from '../config/colors'
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
-const Custom_image_picker = ({ image, setImage, onImageSelected, label }) => {
+interface CustomImagePickerProps {
+  image?: any;
+  setImage?: (img: any) => void;
+  onImageSelected?: (img: any) => void;
+  label?: string;
+}
 
-
+const Custom_Image_Picker = ({ image = null, setImage, onImageSelected, label = '' }: CustomImagePickerProps = {}) => {
   const { t } = useTranslation();
-
-
-
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -106,4 +108,4 @@ const Custom_image_picker = ({ image, setImage, onImageSelected, label }) => {
   );
 };
 
-export default Custom_image_picker
+export default Custom_Image_Picker

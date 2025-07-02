@@ -1,7 +1,7 @@
 import React from 'react'
 import { RefreshControl } from 'react-native'
 import { Div, ScrollDiv, Text, Header, Button, Icon, Skeleton, Image } from 'react-native-magnus'
-import Custom_home_item from '../../custom/Custom_home_item'
+import Custom_Home_Item from '../../custom/custom_home_item'
 import { colors } from '../../config/colors'
 import { useNavigation } from '@react-navigation/native'
 import { useContext } from 'react'
@@ -10,12 +10,15 @@ import { useState, useEffect } from 'react'
 import { api } from '../../config/api'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import Custom_header from '../../custom/Custom_header'
 import Skeleton_loading_item from '../../items/Skeleton_loading_item'
-import Custom_button from '../../custom/Custom_button'
+import { AntDesign, FontAwesome, MaterialIcons, Entypo, Feather } from '@expo/vector-icons';
+
+
+
+import Custom_Header from '../../custom/custom_header'
 export default function Home() {
     const { auth } = useContext(AuthContext);
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const [vendor, setVendor] = useState(null);
     const [loading, setLoading] = useState(true);
     const { t } = useTranslation();
@@ -45,7 +48,6 @@ export default function Home() {
         }
     };
     useEffect(() => {
-
         fetchVendor();
     }, [auth])
 
@@ -66,7 +68,7 @@ export default function Home() {
 
 
 
-                <Custom_header />
+                <Custom_Header title={t('home')} />
 
 
 
@@ -93,29 +95,29 @@ export default function Home() {
 
 
                         <Div flexDir='row' flexWrap='wrap' justifyContent='space-between' mt={10} alignItems='center' px={10}>
-                            <Custom_home_item
-                                icon={require('../../../assets/images/add-product.png')}
+                            <Custom_Home_Item
+                                icon={<AntDesign name="pluscircleo" size={35} color={colors.primary} />}
                                 title={t('add-product')}
                                 onPress={() => navigation.navigate('AddProduct', { vendorId: vendor.id })}
                             />
 
-                            <Custom_home_item
-                                icon={require('../../../assets/images/products.png')}
+                            <Custom_Home_Item
+                                icon={<FontAwesome name="product-hunt" size={35} color={colors.primary} />}
                                 title={t('my-products')}
                                 onPress={() => navigation.navigate('Show', { vendorId: vendor.id })}
                             />
-                            <Custom_home_item
-                                icon={require('../../../assets/images/orders.png')}
+                            <Custom_Home_Item
+                                icon={<MaterialIcons name="list-alt" size={35} color={colors.primary} />}
                                 title={'Orders'}
                                 onPress={() => navigation.navigate('Orders', { vendorId: vendor.id })}
                             />
-                            <Custom_home_item
-                                icon={require('../../../assets/images/store.png')}
+                            <Custom_Home_Item
+                                icon={<Entypo name="shop" size={35} color={colors.primary} />}
                                 title={'Store'}
                                 onPress={() => navigation.navigate('UpdateVendor', { vendor: vendor })}
                             />
-                            <Custom_home_item
-                                icon={require('../../../assets/images/google.png')}
+                            <Custom_Home_Item
+                                icon={<Feather name="help-circle" size={35} color={colors.primary} />}
                                 title={t('help_support')}
                                 onPress={() => navigation.navigate('Help')}
                             />
